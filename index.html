@@ -60,11 +60,13 @@
 
 <section id="pris" class="alt">
   <h2 id="inquiryTitle">Prisforespørsel</h2>
-  <form action="mailto:post@vasketjenester.no" method="post" enctype="text/plain">
-    <input type="text" name="Navn" placeholder="Navn" required>
-    <input type="email" name="E-post" placeholder="E-post" required>
-    <textarea id="message" name="Melding" rows="5" placeholder="Din forespørsel"></textarea>
+  <form action="https://formspree.io/f/XXXXYYYY" method="POST">
+    <input type="text" name="name" placeholder="Navn" required>
+    <input type="email" name="email" placeholder="E-post" required>
+    <textarea id="message" name="message" rows="5" placeholder="Din forespørsel"></textarea>
+    <input type="hidden" name="service" id="serviceField">
     <button type="submit">Send forespørsel</button>
+    <p style="margin-top:10px;font-size:.9rem">Vi svarer normalt innen 24 timer.</p>
   </form>
 </section>
 
@@ -90,23 +92,35 @@ const frequencies = ["Ukentlig","Annenhver uke","Månedlig","Engang"];
 
 const container = document.getElementById('serviceCards');
 
-services.forEach(service=>{
-  const card=document.createElement('div');
-  card.className='card';
-  card.innerHTML=`<h3>${service}</h3><div class='options'></div>`;
-  const opt=card.querySelector('.options');
+services.forEach(service => {
+  const card = document.createElement('div');
+  card.className = 'card';
 
-  frequencies.forEach(freq=>{
-    const b=document.createElement('button');
-    b.innerText=freq;
-    b.onclick=()=>{
-      document.getElementById('inquiryTitle').innerText=`${service} – ${freq}`;
-      document.getElementById('message').value=`Jeg ønsker ${service} (${freq}).`;
-      location.href='#pris';
-    }
-    opt.appendChild(b);
+  const title = document.createElement('h3');
+  title.innerText = service;
+
+  const options = document.createElement('div');
+  options.className = 'options';
+  options.style.display = 'none';
+
+  frequencies.forEach(freq => {
+    const b = document.createElement('button');
+    b.innerText = freq;
+    b.style.background = '#0b3a53';
+    b.onclick = () => {
+      document.getElementById('inquiryTitle').innerText = `${service} – ${freq}`;
+      document.getElementById('message').value = `Jeg ønsker ${service} (${freq}).`;
+      location.href = '#pris';
+    };
+    options.appendChild(b);
   });
 
+  card.onclick = () => {
+    options.style.display = options.style.display === 'none' ? 'block' : 'none';
+  };
+
+  card.appendChild(title);
+  card.appendChild(options);
   container.appendChild(card);
 });
 </script>
