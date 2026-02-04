@@ -4,71 +4,35 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vasketjenester AS – Profesjonelt renhold</title>
-  <meta name="description" content="Profesjonelle renholdstjenester for bedrift og privat. Over 25 års erfaring. Be om pris i dag." />
 
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --primary:#0b3a53;
-      --secondary:#1479a6;
-      --light:#f4f6f8;
-      --dark:#222;
-    }
-    * { box-sizing:border-box; }
-    body {
-      margin:0; font-family:'Poppins', sans-serif; line-height:1.6; color:var(--dark);
-    }
-    h1, h2 { font-family:'Playfair Display', serif; }
+    :root { --primary:#0b3a53; --secondary:#1479a6; --light:#f4f6f8; --dark:#222; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Poppins',sans-serif;color:var(--dark)}
+    h1,h2{font-family:'Playfair Display',serif}
 
-    header { position: relative; height: 80vh; }
-    header video { width:100%; height:100%; object-fit:cover; }
-    .overlay {
-      position:absolute; inset:0; background:rgba(0,0,0,.55);
-      display:flex; flex-direction:column; justify-content:center; align-items:center;
-      text-align:center; color:white; padding:20px;
-    }
+    header{position:relative;height:80vh}
+    header video{width:100%;height:100%;object-fit:cover}
+    .overlay{position:absolute;inset:0;background:rgba(0,0,0,.25)}
 
-    nav {
-      background:var(--primary); padding:14px; position:sticky; top:0; z-index:10;
-      display:flex; justify-content:center; flex-wrap:wrap;
-    }
-    nav a {
-      color:white; margin:5px 18px; text-decoration:none; font-weight:600;
-    }
-    nav a:hover { text-decoration:underline; }
+    nav{background:var(--primary);padding:14px;position:sticky;top:0;z-index:10;display:flex;justify-content:center;gap:20px}
+    nav a{color:#fff;text-decoration:none;font-weight:600}
 
-    section { padding:70px 20px; max-width:1200px; margin:auto; }
-    section.alt { background:var(--light); }
+    section{padding:70px 20px;max-width:1200px;margin:auto}
+    section.alt{background:var(--light)}
 
-    .lang { position:absolute; top:20px; right:20px; }
-    .lang button { margin-left:5px; }
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+    .card{background:#fff;padding:25px;border-radius:16px;box-shadow:0 10px 25px rgba(0,0,0,.08);cursor:pointer}
+    .card:hover{transform:translateY(-4px)}
 
-    button {
-      padding:12px 22px; background:var(--secondary); color:white;
-      border:none; border-radius:25px; cursor:pointer; font-weight:600;
-    }
-    button:hover { opacity:.9; }
+    .options button{margin:5px;border-radius:20px}
 
-    .grid {
-      display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px;
-    }
-    .card {
-      background:white; padding:25px; border-radius:15px;
-      box-shadow:0 10px 25px rgba(0,0,0,.08);
-      transition:transform .2s;
-    }
-    .card:hover { transform:translateY(-5px); }
+    input,textarea{width:100%;padding:12px;margin-bottom:12px;border-radius:6px;border:1px solid #ccc}
+    button{padding:12px 22px;background:var(--secondary);color:#fff;border:none;border-radius:25px;cursor:pointer}
 
-    .form-box input, .form-box textarea {
-      width:100%; padding:12px; margin-bottom:12px;
-      border-radius:6px; border:1px solid #ccc;
-    }
-
-    footer {
-      background:var(--primary); color:white; text-align:center; padding:35px;
-    }
+    footer{background:var(--primary);color:#fff;text-align:center;padding:30px}
   </style>
 </head>
 <body>
@@ -77,112 +41,74 @@
   <video autoplay muted loop playsinline>
     <source src="logo.mp4" type="video/mp4">
   </video>
-  <div class="overlay">
-    <div class="lang">
-      <button onclick="setLang('no')">NO</button>
-      <button onclick="setLang('en')">EN</button>
-    </div>
-    <p id="hero-text" style="font-size:1.4rem; max-width:700px;">Profesjonelle renholdstjenester for bedrift og privat</p>
-    <a href="#pris"><button id="cta-btn">Be om pris</button></a>
-  </div>
+  <div class="overlay"></div>
 </header>
 
 <nav>
-  <a href="#bedrift" id="nav-bedrift">Bedriftskunde</a>
-  <a href="#privat" id="nav-privat">Privatkunde</a>
-  <a href="#om" id="nav-om">Om oss</a>
-  <a href="#kontakt" id="nav-kontakt">Kontakt oss</a>
+  <a href="#services">Tjenester</a>
+  <a href="#om">Om oss</a>
+  <a href="#pris">Prisforespørsel</a>
+  <a href="#kontakt">Kontakt</a>
 </nav>
 
+<section id="services">
+  <h2>Våre tjenester</h2>
+  <p>Klikk på ønsket tjeneste for å velge frekvens</p>
+
+  <div class="grid" id="serviceCards"></div>
+</section>
+
 <section id="pris" class="alt">
-  <h2 id="price-title">Prisforespørsel</h2>
-  <div class="card form-box">
-    <form action="mailto:post@vasketjenester.no" method="post" enctype="text/plain">
-      <input type="text" name="Navn" placeholder="Navn" required>
-      <input type="email" name="E-post" placeholder="E-post" required>
-      <textarea name="Melding" rows="5" placeholder="Fortell oss hva du ønsker pris på"></textarea>
-      <button type="submit" id="send-btn">Send forespørsel</button>
-    </form>
-  </div>
-</section>
-
-<section id="bedrift">
-  <h2 id="bedrift-title">Renhold for bedrifter</h2>
-  <div class="grid" id="bedrift-services"></div>
-</section>
-
-<section id="privat" class="alt">
-  <h2 id="privat-title">Renhold for privatkunder</h2>
-  <div class="grid" id="privat-services"></div>
+  <h2 id="inquiryTitle">Prisforespørsel</h2>
+  <form action="mailto:post@vasketjenester.no" method="post" enctype="text/plain">
+    <input type="text" name="Navn" placeholder="Navn" required>
+    <input type="email" name="E-post" placeholder="E-post" required>
+    <textarea id="message" name="Melding" rows="5" placeholder="Din forespørsel"></textarea>
+    <button type="submit">Send forespørsel</button>
+  </form>
 </section>
 
 <section id="om">
-  <h2 id="about-title">Om oss</h2>
-  <p id="about-text"></p>
+  <h2>Om oss</h2>
+  <p>Vi har over 25 års erfaring fra bransjen og leverer profesjonelt renhold for både bedrifter og privatkunder. Vårt mål er å være en samarbeidspartner du kan stole på – hver gang.</p>
 </section>
 
 <section id="kontakt" class="alt">
-  <h2 id="contact-title">Kontakt oss</h2>
+  <h2>Kontakt oss</h2>
   <p><strong>Daglig leder:</strong> Biljana Lukic</p>
   <p><strong>Telefon:</strong> 415 51 557</p>
 </section>
 
-<footer>
-  <p>© Vasketjenester AS</p>
-</footer>
+<footer>© Vasketjenester AS</footer>
 
 <script>
-const data = {
-  no: {
-    hero:"Profesjonelle renholdstjenester for bedrift og privat",
-    cta:"Be om pris",
-    price:"Prisforespørsel",
-    nav:{bedrift:"Bedriftskunde",privat:"Privatkunde",om:"Om oss",kontakt:"Kontakt oss"},
-    bedriftTitle:"Renhold for bedrifter",
-    privatTitle:"Renhold for privatkunder",
-    bedrift:["Trappevask","Kontorvask","Butikker","Barnehager","Treningssenter","Byggvask","Lager","Brakker"],
-    privat:["Ukentlig renhold hjemme","Annenhver uke renhold hjemme","Månedlig renhold hjemme","Flyttevask","Hovedrengjøring","Vindusvask"],
-    about:"Vi har over 25 års erfaring fra bransjen. Våre rutiner for vaskemetoder, kvalitetskontroll og kostnadseffektive løsninger er utviklet gjennom mange år. Hos Vasketjenester AS er vi opptatt av langsiktige kundeforhold og jobber målrettet for å skape trygghet og forutsigbarhet. Vårt mål er enkelt: Å være en samarbeidspartner du kan stole på – hver gang.",
-    contact:"Kontakt oss",
-    send:"Send forespørsel"
-  },
-  en: {
-    hero:"Professional cleaning services for businesses and private customers",
-    cta:"Request a quote",
-    price:"Price inquiry",
-    nav:{bedrift:"Business",privat:"Private",om:"About us",kontakt:"Contact"},
-    bedriftTitle:"Cleaning for businesses",
-    privatTitle:"Cleaning for private customers",
-    bedrift:["Staircase cleaning","Office cleaning","Retail stores","Kindergartens","Gyms","Construction cleaning","Warehouses","Site cabins"],
-    privat:["Weekly home cleaning","Bi-weekly home cleaning","Monthly home cleaning","Move-out cleaning","Deep cleaning","Window cleaning"],
-    about:"We have over 25 years of experience in the cleaning industry. Our routines and quality control systems are built through years of professional work. Our goal is simple: to be a partner you can trust – every time.",
-    contact:"Contact us",
-    send:"Send inquiry"
-  }
-};
+const services = [
+  "Kontorvask","Trappevask","Flyttevask","Ukentlig renhold hjemme","Vindusvask","Byggvask"
+];
 
-function renderServices(lang){
-  document.getElementById('bedrift-services').innerHTML = data[lang].bedrift.map(s=>`<div class="card">${s}</div>`).join('');
-  document.getElementById('privat-services').innerHTML = data[lang].privat.map(s=>`<div class="card">${s}</div>`).join('');
-}
+const frequencies = ["Ukentlig","Annenhver uke","Månedlig","Engang"];
 
-function setLang(lang){
-  document.getElementById('hero-text').innerText=data[lang].hero;
-  document.getElementById('cta-btn').innerText=data[lang].cta;
-  document.getElementById('price-title').innerText=data[lang].price;
-  document.getElementById('bedrift-title').innerText=data[lang].bedriftTitle;
-  document.getElementById('privat-title').innerText=data[lang].privatTitle;
-  document.getElementById('about-text').innerText=data[lang].about;
-  document.getElementById('contact-title').innerText=data[lang].contact;
-  document.getElementById('send-btn').innerText=data[lang].send;
-  document.getElementById('nav-bedrift').innerText=data[lang].nav.bedrift;
-  document.getElementById('nav-privat').innerText=data[lang].nav.privat;
-  document.getElementById('nav-om').innerText=data[lang].nav.om;
-  document.getElementById('nav-kontakt').innerText=data[lang].nav.kontakt;
-  renderServices(lang);
-}
+const container = document.getElementById('serviceCards');
 
-setLang('no');
+services.forEach(service=>{
+  const card=document.createElement('div');
+  card.className='card';
+  card.innerHTML=`<h3>${service}</h3><div class='options'></div>`;
+  const opt=card.querySelector('.options');
+
+  frequencies.forEach(freq=>{
+    const b=document.createElement('button');
+    b.innerText=freq;
+    b.onclick=()=>{
+      document.getElementById('inquiryTitle').innerText=`${service} – ${freq}`;
+      document.getElementById('message').value=`Jeg ønsker ${service} (${freq}).`;
+      location.href='#pris';
+    }
+    opt.appendChild(b);
+  });
+
+  container.appendChild(card);
+});
 </script>
 
 </body>
